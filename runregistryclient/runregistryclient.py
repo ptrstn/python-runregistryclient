@@ -1,3 +1,6 @@
+""""
+RunRegistry Client
+"""
 import requests
 
 
@@ -67,6 +70,13 @@ class RunRegistryClient:
         return self.__get_json_response(resource)
 
     def get_table_description(self, namespace=DEFAULT_NAMESPACE, table=DEFAULT_TABLE):
+        """
+        Table description in JSON
+
+        :param namespace: runreg_{workspace}, e.g. runreg_tracker
+        :param table: runs, run_lumis, datasets, dataset_lumis
+        :return: json containing the table description
+        """
         resource = "/table/{}/{}".format(namespace, table)
         return self.__get_json_response(resource)
 
