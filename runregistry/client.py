@@ -12,8 +12,9 @@ class RunRegistryClient:
     https://github.com/valdasraps/resthub
     https://twiki.cern.ch/twiki/bin/viewauth/CMS/DqmRrApi
     """
-    DEFAULT_URL = 'http://vocms00170:2113'
-    ALTERNATIVE_URL = 'http://cmsrunregistryapi.cern.ch:2113'
+
+    DEFAULT_URL = "http://vocms00170:2113"
+    ALTERNATIVE_URL = "http://cmsrunregistryapi.cern.ch:2113"
 
     DEFAULT_NAMESPACE = "runreg_tracker"
     DEFAULT_TABLE = "dataset_lumis"
@@ -25,7 +26,7 @@ class RunRegistryClient:
         response = requests.get(self.url + resource)
         return response.json()
 
-    def get_query_id(self, query):
+    def __get_query_id(self, query):
         """
         Converts a SQL query string into a query id (qid), that will be used to access
         the RunRegistry.
@@ -65,7 +66,7 @@ class RunRegistryClient:
         :param query: SQL query string
         :return: JSON dictionary
         """
-        query_id = self.get_query_id(query)
+        query_id = self.__get_query_id(query)
         resource = "/query/" + query_id + "/data"
         return self.__get_json_response(resource)
 
