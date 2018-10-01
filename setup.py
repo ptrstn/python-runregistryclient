@@ -6,6 +6,6 @@ setup(name='python-runregistryclient',
       url='https://github.com/ptrstn/python-runregistryclient',
       author='Peter Stein',
       author_email='peterstein@cern.ch',
-      packages=['runregistryclient'],
+      packages=['runregistry'],
       install_requires=['requests'],
       zip_safe=False)
