@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/ptrstn/python-runregistryclient.svg?branch=master)](https://travis-ci.com/ptrstn/python-runregistryclient)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 # python-runregistryclient
 Implements a simple Python client that accesses the [RunRegistry](https://cmswbmoffshift.web.cern.ch/cmswbmoffshift/runregistry_offline/index.jsf) through the [resthub](http://valdasraps.github.io/resthub/) interface.
