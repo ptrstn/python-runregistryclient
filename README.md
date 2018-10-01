@@ -8,10 +8,10 @@ Implements a simple Python client that accesses the [RunRegistry](https://cmswbm
 pip install git+https://github.com/ptrstn/python-runregistryclient.git
 ```
 
-## Example Usage
+## Example usage
 
 ```python
-from runregistryclient.RunRegistryClient import RunRegistryClient
+from runregistry.client import RunRegistryClient
 
 client = RunRegistryClient()
 query = "select r.runnumber from runreg_global.runs r " \
