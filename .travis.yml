@@ -4,4 +4,5 @@ python:
   - "3.6"
 
 script:
+  - python -m unittest
   - pip install git+https://github.com/ptrstn/python-runregistryclient.git
