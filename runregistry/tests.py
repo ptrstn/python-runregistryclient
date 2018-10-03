@@ -18,6 +18,8 @@ class TestRunRegistryClient(unittest.TestCase):
             "data": [[247073], [247076], [247077], [247078], [247079]]
         })
 
+        runregistry.connection_possible = MagicMock(return_value=True)
+
         query = (
             "select r.runnumber from runreg_global.runs r "
             "where r.run_class_name = 'Collisions15' "
