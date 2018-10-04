@@ -6,3 +6,4 @@ python:
 script:
   - python -m unittest
   - pip install git+https://github.com/ptrstn/python-runregistryclient.git
+  - runreg --help

@@ -56,7 +56,6 @@ MAX_RUN
 263757
 ```
 
-
 ## References
 - https://github.com/valdasraps/resthub
 - https://twiki.cern.ch/twiki/bin/viewauth/CMS/DqmRrApi
