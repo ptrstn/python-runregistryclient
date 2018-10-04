@@ -2,6 +2,7 @@
 RunRegistry Client
 """
 from itertools import groupby
+from json import JSONDecodeError
 from operator import itemgetter
 
 import requests
@@ -57,9 +58,18 @@ class RunRegistryClient(metaclass=Singleton):
             self.retry_connection()
         return self.__connection_successful
 
-    def __get_json_response(self, resource):
-        response = requests.get(self.url + resource)
-        return response.json()
+    def __get_json_response(self, resource, media_type=None):
+        if media_type:
+            headers = {"Accept": media_type}
+            response = requests.get(self.url + resource, headers=headers)
+            return response.content.decode("utf-8")
+
+        try:
+            response = requests.get(self.url + resource)
+            return response.json()
+        except JSONDecodeError as e:
+            print("Error: {}".format(e))
+            return {}
 
     def __get_query_id(self, query):
         """
@@ -72,9 +82,11 @@ class RunRegistryClient(metaclass=Singleton):
         :return: query id
         """
         response = requests.post(self.url + "/query?", data=query)
+        if response.status_code == 400:
+            raise ValueError(response.text)
         return response.text
 
-    def execute_query(self, query):
+    def execute_query(self, query, media_type=None):
         """
         Executes an arbitrary SQL query
 
@@ -98,6 +110,7 @@ class RunRegistryClient(metaclass=Singleton):
         >>> client.execute_query(query)
         {'data': [[247073], [247076], [247077], [247078], [247079]]}
 
+        :param media_type: Desired media type, e.g. application/xml, text/json
         :param query: SQL query string
         :return: JSON dictionary
         """
@@ -105,7 +118,7 @@ class RunRegistryClient(metaclass=Singleton):
             return {}
         query_id = self.__get_query_id(query)
         resource = "/query/" + query_id + "/data"
-        return self.__get_json_response(resource)
+        return self.__get_json_response(resource, media_type)
 
     def get_table_description(self, namespace=DEFAULT_NAMESPACE, table=DEFAULT_TABLE):
         """
