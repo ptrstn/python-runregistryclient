@@ -34,7 +34,7 @@ class TestRunRegistryClient(unittest.TestCase):
         self.assertEqual(expected_response, response)
         runregistry._RunRegistryClient__get_query_id.assert_called_with(query)
         runregistry._RunRegistryClient__get_json_response.assert_called_with(
-            "/query/o1662d3e8bb1/data"
+            "/query/o1662d3e8bb1/data", None
         )
 
 
