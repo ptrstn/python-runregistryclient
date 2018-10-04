@@ -5,7 +5,7 @@
 Implements a simple Python client that accesses the [RunRegistry](https://cmswbmoffshift.web.cern.ch/cmswbmoffshift/runregistry_offline/index.jsf) through the [resthub](http://valdasraps.github.io/resthub/) interface.
 
 ## Install instructions
-```
+```bash
 pip install git+https://github.com/ptrstn/python-runregistryclient.git
 ```
 
@@ -33,7 +33,7 @@ After installing the package, the *runreg* cli script is available.
 runreg --help
 ```
 
-```bash
+```
 usage: runreg [-h] [-i] [-q query] [-f {text,xml,json,json2,csv}]
 
 Run Registry command line client.
