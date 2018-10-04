@@ -1,3 +1,11 @@
+media_type_dict = {
+    "json": "application/json",
+    "json2": "application/json2",
+    "xml": "application/xml",
+    "csv": "text/csv",
+}
+
+
 def transform_lowstat_to_boolean(list_of_run_dict):
     """
     Converts the low_stat properties of the list of run dictionaries into

@@ -12,7 +12,7 @@ pip install git+https://github.com/ptrstn/python-runregistryclient.git
 ## Example usage
 
 ```python
-from runregistry.client import RunRegistryClient
+from runregistry.clients import RunRegistryClient
 
 client = RunRegistryClient()
 query = "select r.runnumber from runreg_global.runs r " \
@@ -24,6 +24,38 @@ Output:
 ```python
 {'data': [[247073], [247076], [247077], [247078], [247079]]}
 ```
+
+## Command line interface
+After installing the package, the *runreg* cli script is available.
+
+### Help
+```bash
+runreg --help
+```
+
+```bash
+usage: runreg [-h] [-i] [-q query] [-f {text,xml,json,json2,csv}]
+
+Run Registry command line client.
+
+optional arguments:
+  -h, --help               show this help message and exit
+  -i, --info               General information about the service
+  -q query                 SQL query used to access the Run Registry.
+  -f {xml,json,json2,csv}  Specify output format
+```
+
+### Example
+```bash
+runreg -q "select max(r.runnumber) as max_run from runreg_tracker.runs r where r.run_class_name = 'Collisions15'"
+```
+
+Output:
+```csv
+MAX_RUN
+263757
+```
+
 
 ## References
 - https://github.com/valdasraps/resthub
