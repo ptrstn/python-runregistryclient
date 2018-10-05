@@ -41,9 +41,9 @@ class RunRegistryClient(metaclass=Singleton):
 
     def __init__(self, url=DEFAULT_URL):
         self.url = url
-        self.__connection_successful = None  # Lazy
+        self._connection_successful = None  # Lazy
 
-    def __test_connection(self):
+    def _test_connection(self):
         try:
             requests.get(self.url)
             return True
@@ -51,14 +51,14 @@ class RunRegistryClient(metaclass=Singleton):
             return False
 
     def retry_connection(self):
-        self.__connection_successful = self.__test_connection()
+        self._connection_successful = self._test_connection()
 
     def connection_possible(self):
-        if self.__connection_successful is None:
+        if self._connection_successful is None:
             self.retry_connection()
-        return self.__connection_successful
+        return self._connection_successful
 
-    def __get_json_response(self, resource, media_type=None):
+    def _get_json_response(self, resource, media_type=None):
         if media_type:
             headers = {"Accept": media_type}
             response = requests.get(self.url + resource, headers=headers)
@@ -71,7 +71,7 @@ class RunRegistryClient(metaclass=Singleton):
             print("Error: {}".format(e))
             return {}
 
-    def __get_query_id(self, query):
+    def _get_query_id(self, query):
         """
         Converts a SQL query string into a query id (qid), that will be used to access
         the RunRegistry.
@@ -116,9 +116,9 @@ class RunRegistryClient(metaclass=Singleton):
         """
         if not self.connection_possible():
             return {}
-        query_id = self.__get_query_id(query)
+        query_id = self._get_query_id(query)
         resource = "/query/" + query_id + "/data"
-        return self.__get_json_response(resource, media_type)
+        return self._get_json_response(resource, media_type)
 
     def get_table_description(self, namespace=DEFAULT_NAMESPACE, table=DEFAULT_TABLE):
         """
@@ -134,7 +134,7 @@ class RunRegistryClient(metaclass=Singleton):
         :return: json containing the table description
         """
         resource = "/table/{}/{}".format(namespace, table)
-        return self.__get_json_response(resource)
+        return self._get_json_response(resource)
 
     def get_queries(self):
         """
@@ -142,7 +142,7 @@ class RunRegistryClient(metaclass=Singleton):
 
         :return: list of queries
         """
-        return self.__get_json_response("/queries")
+        return self._get_json_response("/queries")
 
     def get_query_description(self, query_id):
         """
@@ -150,7 +150,7 @@ class RunRegistryClient(metaclass=Singleton):
 
         :return: json dictionary with query description
         """
-        return self.__get_json_response("/query/{}".format(query_id))
+        return self._get_json_response("/query/{}".format(query_id))
 
     def get_info(self):
         """
@@ -165,7 +165,7 @@ class RunRegistryClient(metaclass=Singleton):
 
         :return json with general information about the service
         """
-        return self.__get_json_response("/info")
+        return self._get_json_response("/info")
 
 
 class TrackerRunRegistryClient(RunRegistryClient):
@@ -175,7 +175,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
     https://cmswbmoffshift.web.cern.ch/cmswbmoffshift/runregistry_offline/index.jsf
     """
 
-    def __get_dataset_runs(self, where_clause):
+    def _get_dataset_runs(self, where_clause):
         query = (
             "select r.run_number, r.run_class_name, r.rda_name, r.rda_state, "
             "r.rda_last_shifter, r.rda_cmp_pixel, r.rda_cmp_strip, "
@@ -207,7 +207,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
 
         return run_dicts
 
-    def __get_dataset_lumis_runs(self, where_clause):
+    def _get_dataset_lumis_runs(self, where_clause):
         query = (
             "select r.rdr_run_number, r.lhcfill, r.rdr_rda_name, r.rdr_section_from, "
             "r.rdr_section_to, r.rdr_section_count, "
@@ -246,7 +246,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
 
         return list_to_dict(run_list, keys)
 
-    def __get_dataset_runs_with_active_lumis(self, where_clause):
+    def _get_dataset_runs_with_active_lumis(self, where_clause):
         query = (
             "select r.run_number, r.run_class_name, r.rda_name, "
             "sum(l.rdr_section_count) as lumi_sections, "
@@ -312,7 +312,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
             return []
 
         where_clause = build_list_where_clause(list_of_run_numbers, "r.run_number")
-        return self.__get_dataset_runs(where_clause)
+        return self._get_dataset_runs(where_clause)
 
     def get_runs_by_range(self, min_run_number, max_run_number):
         """
@@ -331,7 +331,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
         where_clause = build_range_where_clause(
             min_run_number, max_run_number, "r.run_number"
         )
-        return self.__get_dataset_runs(where_clause)
+        return self._get_dataset_runs(where_clause)
 
     def get_lumi_sections_by_list(self, list_of_run_numbers):
         """
@@ -347,7 +347,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
         :return:
         """
         where_clause = build_list_where_clause(list_of_run_numbers, "r.rdr_run_number")
-        return self.__get_dataset_lumis_runs(where_clause)
+        return self._get_dataset_lumis_runs(where_clause)
 
     def get_lumi_sections_by_range(self, min_run_number, max_run_number):
         """
@@ -366,7 +366,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
         where_clause = build_range_where_clause(
             min_run_number, max_run_number, "r.rdr_run_number"
         )
-        return self.__get_dataset_lumis_runs(where_clause)
+        return self._get_dataset_lumis_runs(where_clause)
 
     def get_active_lumi_runs_by_list(self, list_of_run_numbers):
         """
@@ -379,7 +379,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
         279
         """
         where_clause = build_list_where_clause(list_of_run_numbers, "r.run_number")
-        return self.__get_dataset_runs_with_active_lumis(where_clause)
+        return self._get_dataset_runs_with_active_lumis(where_clause)
 
     def get_active_lumi_runs_by_range(self, min_run_number, max_run_number):
         """
@@ -394,7 +394,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
         where_clause = build_range_where_clause(
             min_run_number, max_run_number, "r.run_number"
         )
-        return self.__get_dataset_runs_with_active_lumis(where_clause)
+        return self._get_dataset_runs_with_active_lumis(where_clause)
 
     def get_fill_number_by_run_number(self, list_of_run_numbers):
         """
