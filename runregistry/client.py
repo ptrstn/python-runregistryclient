@@ -46,9 +46,23 @@ class RunRegistryClient(metaclass=Singleton):
             return False
 
     def retry_connection(self):
+        """
+        Retry to connect to Run Registry.
+        Updates return value of the connection_possible method.
+        """
         self._connection_successful = self._test_connection()
 
     def connection_possible(self):
+        """
+        Check if the connection to the Run Registry is possible.
+
+        Example:
+        >>> client = RunRegistryClient()
+        >>> client.connection_possible()
+        True
+
+        :return: True when connection to Run Registry was successful
+        """
         if self._connection_successful is None:
             self.retry_connection()
         return self._connection_successful
