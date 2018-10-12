@@ -103,14 +103,15 @@ class TrackerRunRegistryClient(RunRegistryClient):
             "and l.rdr_rda_name = r.rda_name "
             "and l.rdr_rda_name != '/Global/Online/ALL' "
             "and l.cms_active = 1 "
-            "and l.beam1_stable = 1 "
+            "and (l.beam1_stable = 1 "
             "and l.beam2_stable = 1 "
-            "and l.TIBTID_READY = 1 "
-            "and l.TOB_READY = 1 "
-            "and l.TECP_READY = 1 "
-            "and l.TECM_READY = 1 "
-            "and l.BPIX_READY = 1 "
-            "and l.FPIX_READY = 1 "
+            "or l.rdr_rda_name LIKE '%Cosmics%') "
+            "and (l.TIBTID_READY = 1 "
+            "or l.TOB_READY = 1 "
+            "or l.TECP_READY = 1 "
+            "or l.TECM_READY = 1 "
+            "or l.BPIX_READY = 1 "
+            "or l.FPIX_READY = 1) "
             "and {} "
             "group by r.run_number, r.rda_name, r.run_class_name, "
             "r.rda_state, r.rda_last_shifter, r.rda_cmp_pixel, r.rda_cmp_strip, "
@@ -222,6 +223,10 @@ class TrackerRunRegistryClient(RunRegistryClient):
         >>> runs = client.get_active_lumi_runs_by_list(["321777"])
         >>> runs[0]["lumi_sections"]
         279
+        >>> client.get_active_lumi_runs_by_list(["324021"])[0]["lumi_sections"]
+        777
+        >>> client.get_active_lumi_runs_by_list(["323829"])[0]["lumi_sections"]
+        456
         """
         where_clause = build_list_where_clause(list_of_run_numbers, "r.run_number")
         return self._get_dataset_runs_with_active_lumis(where_clause)
