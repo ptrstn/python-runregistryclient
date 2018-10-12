@@ -1,9 +1,12 @@
 """"
 RunRegistry Client
 """
+import logging
 from json import JSONDecodeError
 
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 class Singleton(type):
@@ -68,6 +71,10 @@ class RunRegistryClient(metaclass=Singleton):
         return self._connection_successful
 
     def _get_json_response(self, resource, media_type=None):
+        if not self.connection_possible():
+            logger.error("Connection to {} not possible".format(self.url))
+            return {}
+
         if media_type:
             headers = {"Accept": media_type}
             response = requests.get(self.url + resource, headers=headers)
@@ -77,7 +84,7 @@ class RunRegistryClient(metaclass=Singleton):
             response = requests.get(self.url + resource)
             return response.json()
         except JSONDecodeError as e:
-            print("Error: {}".format(e))
+            logger.error(e)
             return {}
 
     def _get_query_id(self, query):
@@ -126,6 +133,7 @@ class RunRegistryClient(metaclass=Singleton):
         :return: JSON dictionary
         """
         if not self.connection_possible():
+            logger.error("Connection to {} not possible".format(self.url))
             return {}
         query_id = self._get_query_id(query)
         resource = "/query/" + query_id + "/data"
