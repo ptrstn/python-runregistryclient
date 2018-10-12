@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from runregistry.clients import RunRegistryClient
+from runregistry.client import RunRegistryClient
 from runregistry.utilities import (
     transform_lowstat_to_boolean,
     list_as_comma_separated_string,

@@ -1,7 +1,7 @@
 import argparse
 import json
 
-from runregistry.clients import RunRegistryClient
+from runregistry.client import RunRegistryClient
 from runregistry.utilities import media_type_dict
 
 
