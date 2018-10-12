@@ -71,7 +71,7 @@ class RunRegistryClient(metaclass=Singleton):
         Converts a SQL query string into a query id (qid), that will be used to access
         the RunRegistry.
 
-        GET: /query/{query_id}
+        POST: /query
 
         :param query: SQL query string
         :return: query id
@@ -84,6 +84,8 @@ class RunRegistryClient(metaclass=Singleton):
     def execute_query(self, query, media_type=None):
         """
         Executes an arbitrary SQL query
+
+        GET: /query/{query_id}
 
         Limitations:
          - tables referred by namespace.table
