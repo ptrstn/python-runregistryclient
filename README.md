@@ -56,6 +56,16 @@ MAX_RUN
 263757
 ```
 
+
+### Run tests
+Make sure that you are within the CERN GPN.
+
+```bash
+python -m unittest
+python -m doctest -v runregistry\client.py
+python -m doctest -v runregistry\tracker.py
+```
+
 ## References
 - https://github.com/valdasraps/resthub
 - https://twiki.cern.ch/twiki/bin/viewauth/CMS/DqmRrApi

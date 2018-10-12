@@ -7,6 +7,10 @@ import requests
 
 
 class Singleton(type):
+    """
+    Allow only one instance of a class
+    """
+
     _instances = {}
 
     def __call__(cls, *args, **kwargs):
