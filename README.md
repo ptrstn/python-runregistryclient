@@ -76,7 +76,8 @@ Make sure that you are within the CERN GPN.
 ```bash
 python -m unittest
 python -m doctest -v runregistry\client.py
-python -m doctest -v runregistry\tracker.py
+python -m doctest -v runregistry\tracker\client.py
+python -m doctest -v runregistry\tracker\lumis.py
 ```
 
 ## References
