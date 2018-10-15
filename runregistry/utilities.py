@@ -5,6 +5,7 @@ media_type_dict = {
     "csv": "text/csv",
 }
 
+
 def list_as_comma_separated_string(items):
     """
     Converts a list of items into a single comma separated string

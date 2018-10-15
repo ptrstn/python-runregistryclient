@@ -2,19 +2,14 @@ import unittest
 from unittest.mock import MagicMock
 
 from runregistry.client import RunRegistryClient
-from runregistry.utilities import (
-    list_as_comma_separated_string,
-    list_to_dict,
-)
+from runregistry.utilities import list_as_comma_separated_string, list_to_dict
 
 
 class TestRunRegistryClient(unittest.TestCase):
     def test_execute_query(self):
         runregistry = RunRegistryClient()
 
-        runregistry._get_query_id = MagicMock(
-            return_value="o1662d3e8bb1"
-        )
+        runregistry._get_query_id = MagicMock(return_value="o1662d3e8bb1")
         runregistry._get_json_response = MagicMock(
             return_value={"data": [[247073], [247076], [247077], [247078], [247079]]}
         )
