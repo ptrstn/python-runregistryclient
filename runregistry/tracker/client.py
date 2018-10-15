@@ -5,8 +5,8 @@ from itertools import groupby
 from operator import itemgetter
 
 from runregistry.client import RunRegistryClient
+from runregistry.tracker.utilities import transform_lowstat_to_boolean
 from runregistry.utilities import (
-    transform_lowstat_to_boolean,
     list_to_dict,
     build_range_where_clause,
     build_list_where_clause,

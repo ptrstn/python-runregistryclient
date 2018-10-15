@@ -12,7 +12,7 @@ pip install git+https://github.com/ptrstn/python-runregistryclient.git
 ## Example usage
 
 ```python
-from runregistry.clients import RunRegistryClient
+from runregistry.client import RunRegistryClient
 
 client = RunRegistryClient()
 query = "select r.runnumber from runreg_global.runs r " \
