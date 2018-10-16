@@ -15,9 +15,11 @@ pip install git+https://github.com/ptrstn/python-runregistryclient.git
 from runregistry.client import RunRegistryClient
 
 client = RunRegistryClient()
-query = "select r.runnumber from runreg_global.runs r " \
-        "where r.run_class_name = 'Collisions15'" \
-        "and r.runnumber > 247070 and r.runnumber < 247081"
+query = (
+    "select r.runnumber from runreg_global.runs r "
+    "where r.run_class_name = 'Collisions15'"
+    "and r.runnumber > 247070 and r.runnumber < 247081"
+)
 client.execute_query(query)
 ```
 Output:
