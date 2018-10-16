@@ -26,7 +26,7 @@ Output:
 ```
 
 ## Command line interface
-After installing the package, the *runreg* cli script is available.
+After [installing](#install-instructions) the package, the *runreg* cli script is available.
 
 ### Help
 ```bash
