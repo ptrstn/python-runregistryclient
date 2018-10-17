@@ -5,7 +5,10 @@ from itertools import groupby
 from operator import itemgetter
 
 from runregistry.client import RunRegistryClient
-from runregistry.tracker.utilities import transform_lowstat_to_boolean
+from runregistry.tracker.utilities import (
+    transform_lowstat_to_boolean,
+    build_dcs_query_string,
+)
 from runregistry.utilities import (
     list_to_dict,
     build_range_where_clause,
@@ -92,6 +95,7 @@ class TrackerRunRegistryClient(RunRegistryClient):
         return list_to_dict(run_list, keys)
 
     def _get_dataset_runs_with_active_lumis(self, where_clause):
+        dcs_list = ["Tibtid", "TecM", "TecP", "Tob", "Bpix", "Fpix"]
         query = (
             "select r.run_number, r.run_class_name, r.rda_name, "
             "sum(l.rdr_section_count) as lumi_sections, "
@@ -106,17 +110,12 @@ class TrackerRunRegistryClient(RunRegistryClient):
             "and (l.beam1_stable = 1 "
             "and l.beam2_stable = 1 "
             "or l.rdr_rda_name LIKE '%Cosmics%') "
-            "and (l.TIBTID_READY = 1 "
-            "or l.TOB_READY = 1 "
-            "or l.TECP_READY = 1 "
-            "or l.TECM_READY = 1 "
-            "or l.BPIX_READY = 1 "
-            "or l.FPIX_READY = 1) "
-            "and {} "
-            "group by r.run_number, r.rda_name, r.run_class_name, "
+            "and ({}) ".format(build_dcs_query_string(dcs_list, "l", "or"))
+            + "and {} ".format(where_clause)
+            + "group by r.run_number, r.rda_name, r.run_class_name, "
             "r.rda_state, r.rda_last_shifter, r.rda_cmp_pixel, r.rda_cmp_strip, "
             "r.rda_cmp_tracking, r.rda_cmp_pixel_cause, r.rda_cmp_strip_cause, "
-            "r.rda_cmp_tracking_cause ".format(where_clause)
+            "r.rda_cmp_tracking_cause "
         )
 
         run_list = self.execute_query(query).get("data", [])

@@ -72,6 +72,7 @@ Output:
 ```
 
 This can be used as input for [brilcalc](https://cms-service-lumi.web.cern.ch/cms-service-lumi/brilwsdoc.html), to compute the integrated luminosity.
+
 ## Run tests
 Make sure that you are within the CERN GPN.
 
@@ -80,6 +81,7 @@ python -m unittest
 python -m doctest -v runregistry\client.py
 python -m doctest -v runregistry\tracker\client.py
 python -m doctest -v runregistry\tracker\lumis.py
+python -m doctest -v runregistry\tracker\utilities.py
 ```
 
 ## References
