@@ -13,6 +13,7 @@ class TestRunRegistryClient(unittest.TestCase):
         runregistry._get_json_response = MagicMock(
             return_value={"data": [[247073], [247076], [247077], [247078], [247079]]}
         )
+        runregistry._get_count = MagicMock(return_value=1)
 
         runregistry.connection_possible = MagicMock(return_value=True)
 
