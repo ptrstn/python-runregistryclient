@@ -59,19 +59,7 @@ MAX_RUN
 ```
 
 ## Retrieve lumi sections JSON
-To retrieve lumi sections in a JSON format you can do the following:
-```python
-from runregistry.tracker.lumis import LumiSectionsRetriever
-retriever = LumiSectionsRetriever()
-retriever.get_json([321813, 323983])
-```
-
-Output:
-```json
-{"321813": [[20, 31], [32, 37], [38, 51], [52, 254], [255, 257], [258, 352], [353, 433]], "323983": [[1, 188]]}
-```
-
-This can be used as input for [brilcalc](https://cms-service-lumi.web.cern.ch/cms-service-lumi/brilwsdoc.html), to compute the integrated luminosity.
+To retrieve lumi sections in a JSON format check out [https://github.com/ptrstn/lumis](https://github.com/ptrstn/lumis)
 
 ## Run tests
 Make sure that you are within the CERN GPN.
